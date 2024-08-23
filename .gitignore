@@ -1,3 +1,10 @@
 __pycache__/
 .pytest_cache/
 .vscode/
+
+# debugging files
+bad-filenames/
+gutsick-gibbon-videos/
+sandbox.py
+RunTestCode.bat
+refresh_podcasts_tool_funcs_test.py
