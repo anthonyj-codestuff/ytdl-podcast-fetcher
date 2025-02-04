@@ -5,7 +5,7 @@ __pycache__/
 # script files
 lockfile
 archive.txt
-batchURLS.txt
+# batchURLS.txt
 config_pods_playlist.txt
 config_pods_username.txt
 config_pods_cherrypick.txt
