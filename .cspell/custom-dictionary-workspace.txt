@@ -1,0 +1,14 @@
+# Custom Dictionary Words
+Alphanum
+bestaudio
+corefuncs
+Datespread
+demojize
+funcs
+justcast
+offtopic
+selfpromo
+sponsorblock
+worktree
+youtu
+YTDL
