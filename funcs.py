@@ -34,6 +34,17 @@ def checkLockfile():
 ## Misc
 
 def validateFileStructure():
+    # Check and set YTDL
+    # Check and set FFMPEG
+    # Check and set DEST
+    # check for "Misc Stuff" within DEST
+    # Check for "audio-processing" or create it
+    # Check for "videos" or create it
+    # Check for "metadata" or create it
+    # Check for all configs or create
+    # Check for batchURLs or touch
+    # Check for archive or touch
+    # Check for episode-log or touch
     ytdlPath = shutil.which("yt-dlp") or shutil.which("yt-dl")
     ffmpegPath = shutil.which("ffmpeg")
     configOptions = corefuncs.parseConfigFile(c.FETCHER_CONFIG_FILEPATH)
@@ -230,8 +241,8 @@ def cleanFilenames(videosDir):
     # TODO scan files for partial downloads and remove those file ids from the archive
     listOfFiles = getFiles(videosDir)
     for i in listOfFiles:
-        location = "\\".join(i.split("\\")[0:-1])
-        filenameOriginal = i.split("\\")[-1]
+        location = os.path.dirname(i)
+        filenameOriginal = os.path.basename(i)
         print(filenameOriginal)
         filenameNew = filenameOriginal
         ##  First pass, clean out all emojis, unicode and fix the whitespace
@@ -251,8 +262,8 @@ def cleanFilenames(videosDir):
         filenameNew = re.sub(r" _ ", r" - ", filenameNew)
         filenameNew = re.sub(r"—", r"-", filenameNew)
         filenameNew = re.sub(r"\.\.+", r".", filenameNew)
-        old = location + "\\" + filenameOriginal
-        new = location + "\\" + filenameNew
+        old = os.path.join(location, filenameOriginal)
+        new = os.path.join(location, filenameNew)
         os.rename(old, new)
 
 ## file management
@@ -262,12 +273,11 @@ def moveFilesToDestination(videosDir, logFilepath, destinationDir):
     ## OR move completed files into a new folder to wait for processing
     listOfFiles = getFiles(videosDir)
     for i in listOfFiles:
-        pathBits = i.split("\\")
-        old = videosDir + "\\" + pathBits[-2] + "\\" + pathBits[-1]
-        new = destinationDir + "\\" + pathBits[-2] + "\\" + pathBits[-1]
+        old = os.path.join(videosDir, os.path.join(os.path.basename(os.path.dirname(i)), os.path.basename(i)))
+        new = os.path.join(destinationDir, os.path.join(os.path.basename(os.path.dirname(i)), os.path.basename(i)))
 
         if not os.path.exists(new):
-            print("Moving " + pathBits[-1])
+            print(f"Moving {os.path.basename(i)}")
             try:
                 shutil.copy(old, new)
             except FileExistsError as err:
@@ -275,13 +285,13 @@ def moveFilesToDestination(videosDir, logFilepath, destinationDir):
             except FileNotFoundError as err:
                 appendToTextFile(err, logFilepath)
         else:
-            appendToTextFile("WARN: File " + pathBits[-1] + " already exists\n", logFilepath)
+            appendToTextFile(f"WARN: File {os.path.basename(i)} already exists\n", logFilepath)
 
 def deleteFiles(videosDir):
     location = videosDir
     folders = os.listdir(location)
     for i in folders:
-        folder = location + "\\" + i
+        folder = os.path.join(location, i)
         print("Deleting", folder)
         shutil.rmtree(folder, ignore_errors=False, onerror=None)
 
@@ -292,9 +302,9 @@ def logAllFiles(videosDir, logFilepath):
     if len(listOfFiles) > 0:
         appendToTextFile(f"=== NEW RUN: {str(len(listOfFiles))} new episodes ===", logFilepath, False)
         for i in listOfFiles:
-            show = i.split("\\")[-2]
-            episode = i.split("\\")[-1]
-            log = f" - {show}\\{episode}"
+            show = os.path.basename(os.path.dirname(i))
+            episode = os.path.basename(i)
+            log = f" - {os.path.join(show, episode)}"
             appendToTextFile(log, logFilepath)
 
 def appendToTextFile(text, filepath, writeDate=True):

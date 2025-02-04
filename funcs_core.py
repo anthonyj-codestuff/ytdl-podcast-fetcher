@@ -1,3 +1,4 @@
+import os
 import subprocess
 import constants as c
 import funcs as funcs
@@ -8,7 +9,7 @@ def downloadVideosByPlaylistId(podName, listId, reject, maxDuration, overridePLL
         "-c",
         "-i",
         "-R", "3",
-        "-o", c.VIDEOS_DIR + "\\" + podName + "\\%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s",
+        "-o", os.path.join(c.VIDEOS_DIR, podName, "%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s"),
         "-f", "bestaudio[ext=m4a]",
         "--match-filter", "!is_live",
         "--reject-title", reject,
@@ -41,7 +42,7 @@ def downloadVideosByUsername(podName, username, reject, maxDuration, overridePLL
         "-c",
         "-i",
         "-R", "3",
-        "-o", c.VIDEOS_DIR + "\\" + podName + "\\%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s",
+        "-o", os.path.join(c.VIDEOS_DIR, podName, "%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s"),
         "-f", "bestaudio[ext=m4a]",
         "--match-filter", "!is_live",
         "--reject-title", reject,
@@ -74,7 +75,7 @@ def downloadMiscVideoList():
         "-i",
         "-R", "3",
         "--batch-file", c.BATCH_URLS_FILEPATH,
-        "-o", c.VIDEOS_DIR + "\\Misc Stuff\\%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s",
+        "-o", os.path.join(c.VIDEOS_DIR, "Misc Stuff", "%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s"),
         "-f", "bestaudio[ext=m4a]",
         "--add-metadata",
         "--embed-thumbnail",
