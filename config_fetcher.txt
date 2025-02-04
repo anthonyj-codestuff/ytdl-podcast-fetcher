@@ -1,0 +1,4 @@
+Property,Value
+YTDL_PATH,
+FFMPEG_PATH,
+DEST_DIR,
