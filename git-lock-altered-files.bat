@@ -3,6 +3,8 @@ echo "Locking archive.txt"
 git update-index --skip-worktree .\archive.txt
 echo "Locking batchURLs.txt"
 git update-index --skip-worktree .\batchURLs.txt
+echo "Locking episode-log.txt"
+git update-index --skip-worktree .\episode-log.txt
 echo "Locking config_pods_playlist.txt"
 git update-index --skip-worktree .\config_pods_playlist.txt
 echo "Locking config_pods_username.txt"
