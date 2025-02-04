@@ -6,12 +6,13 @@ __pycache__/
 lockfile
 archive.txt
 batchURLs.txt
+config_fetcher.txt
 config_pods_playlist.txt
 config_pods_username.txt
 config_pods_cherrypick.txt
 audio-processing/
+metadata/
 videos/
-
 
 # debugging and misc files
 notes.txt
