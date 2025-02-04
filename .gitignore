@@ -2,10 +2,21 @@ __pycache__/
 .pytest_cache/
 .vscode/
 
-# debugging files
+# script files
+lockfile
+archive.txt
+batchURLS.txt
+config_pods_playlist.txt
+config_pods_username.txt
+config_pods_cherrypick.txt
+audio-processing/
+videos/
+
+
+# debugging and misc files
+notes.txt
 bad-filenames/
-gutsick-gibbon-videos/
 sandbox.py
+archive-gg.txt
 RunTestCode.bat
-DownloadGibbon.bat
-refresh_podcasts_tool_funcs_test.py
+podcast_manage_tool_funcs_test.py
