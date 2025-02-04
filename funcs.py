@@ -32,52 +32,97 @@ def checkLockfile():
 
 
 ## Misc
-
 def validateFileStructure():
-    # Check and set YTDL
-    # Check and set FFMPEG
-    # Check and set DEST
-    # check for "Misc Stuff" within DEST
-    # Check for "audio-processing" or create it
-    # Check for "videos" or create it
-    # Check for "metadata" or create it
-    # Check for all configs or create
-    # Check for batchURLs or touch
-    # Check for archive or touch
-    # Check for episode-log or touch
-    ytdlPath = shutil.which("yt-dlp") or shutil.which("yt-dl")
-    ffmpegPath = shutil.which("ffmpeg")
+    # Check each portion of the program to see if they exist add an error
+    # for each  missing bit and validate if there are no errors at the end
+    ytdlShellPath = shutil.which("yt-dlp") or shutil.which("yt-dl")
+    ffmpegShellPath = shutil.which("ffmpeg")
     configOptions = corefuncs.parseConfigFile(c.FETCHER_CONFIG_FILEPATH)
+    ytdl = ""
+    ffmpeg = ""
+    dest = ""
     for i in configOptions:
-        if(i[0] == "YTDL_PATH"):
+        if i[0] == "YTDL_PATH":
             ytdl = i[1]
-            if(os.path.isfile(ytdl)):
-                c.Config.set("YTDL_PATH", ytdl)
-                c.Config.set("YTDL_FOUND", True)
-            elif(os.path.isfile(ytdlPath)):
-                c.Config.set("YTDL_PATH", ytdlPath)
-                c.Config.set("YTDL_FOUND", True)
-        if(i[0] == "FFMPEG_PATH"):
+        if i[0] == "FFMPEG_PATH":
             ffmpeg = i[1]
-            if(os.path.isfile(ytdl)):
-                c.Config.set("FFMPEG_PATH", ffmpeg)
-                c.Config.set("FFMPEG_FOUND", True)
-            elif(os.path.isfile(ytdlPath)):
-                c.Config.set("FFMPEG_PATH", ffmpegPath)
-                c.Config.set("FFMPEG_FOUND", True)
-        if(i[0] == "DEST_DIR"):
+        if i[0] == "DEST_DIR":
             dest = i[1]
-            if(os.path.isdir(dest)):
-                c.Config.set("DEST_DIR", dest)
-                c.Config.set("DESTINATION_FOUND", True)
 
-    #TODO Finish this
-    if not c.Config.get("YTDL_FOUND"):
-        c.Config.addError("Could not find ytdl")
-    if not c.Config.get("FFMPEG_FOUND"):
-        c.Config.addError("Could not find ffmpeg")
-    if not c.Config.get("DESTINATION_FOUND"):
-        c.Config.addError("Could not find destination dir")
+    # set config path OR default path
+    if ytdl and os.path.isfile(ytdl):
+        c.Config.set("YTDL_PATH", ytdl)
+        c.Config.set("YTDL_FOUND", True)
+    elif os.path.isfile(ytdlShellPath):
+        c.Config.set("YTDL_PATH", ytdlShellPath)
+        c.Config.set("YTDL_FOUND", True)
+    else:
+        c.Config.addError("Could not find ytdl. Install or add the executable path to config_fetcher.txt")
+    if ffmpeg and os.path.isfile(ffmpeg):
+        c.Config.set("FFMPEG_PATH", ffmpeg)
+        c.Config.set("FFMPEG_FOUND", True)
+    elif os.path.isfile(ffmpegShellPath):
+        c.Config.set("FFMPEG_PATH", ffmpegShellPath)
+        c.Config.set("FFMPEG_FOUND", True)
+    else:
+        c.Config.addError("Could not find ffmpeg. Install or add the executable path to config_fetcher.txt")
+    if dest and os.path.isdir(dest):
+        c.Config.set("DEST_DIR", dest)
+        c.Config.set("DESTINATION_FOUND", True)
+    else:
+        c.Config.addError("Could not find destination dir. Add this directory path to config_fetcher.txt")
+
+    #########################################################
+    # after this point, there's no more need to write errors.
+    # Just create things if they don't exist
+
+    # check for "Misc Stuff" within DEST
+    misc = os.path.join(c.Config.get("DEST_DIR"), "Misc Stuff")
+    if c.Config.get("DESTINATION_FOUND"):
+        # if DEST exists, but "Misc Stuff" does not, create it
+        if not os.path.isdir(misc):
+            os.makedirs(misc)
+            appendToTextFile("Created Misc Stuff directory", c.LOG_FILEPATH)
+
+    # Check for required directories
+    for d in ["audio-processing","videos", "metadata"]:
+        dir = os.path.join(c.PATH, d)
+        if not os.path.isdir(dir):
+            os.makedirs(dir)
+            appendToTextFile(f"Created {d} directory", c.LOG_FILEPATH)
+
+    # Check for output files
+    for f in ["archive.txt","batchURLs.txt","episode-log.txt"]:
+        file = os.path.join(c.PATH, f)
+        if not os.path.isfile(file):
+            open(file, 'w', encoding='utf8')
+            appendToTextFile(f"Created {f}", c.LOG_FILEPATH)
+    
+    # Check for all configs
+    fetcherConfig = os.path.join(c.PATH, "TEST_config_fetcher.txt")
+    if not os.path.isfile(fetcherConfig):
+        with open(fetcherConfig, 'w', encoding='utf8') as file:
+            file.write("#Property,Value\nYTDL_PATH,\nFFMPEG_PATH,\nDEST_DIR,")
+            appendToTextFile("Created TEST_config-fetcher.txt", c.LOG_FILEPATH)
+
+    playlistConfig = os.path.join(c.PATH, "TEST_config_pods_playlist.txt")
+    if not os.path.isfile(playlistConfig):
+        with open(playlistConfig, 'w', encoding='utf8') as file:
+            file.write("#DestFolder,PlaylistID,RejectPhrase,MaxDurationSeconds,FeedName\n")
+            appendToTextFile("Created TEST_config_pods_playlist.txt", c.LOG_FILEPATH)
+
+    usernameConfig = os.path.join(c.PATH, "TEST_config_pods_username.txt")
+    if not os.path.isfile(usernameConfig):
+        with open(usernameConfig, 'w', encoding='utf8') as file:
+            file.write("#DestFolder,YTusername,RejectPhrase,MaxDurationSeconds,FeedName\n")
+            appendToTextFile("Created TEST_config_pods_username.txt", c.LOG_FILEPATH)
+
+    cherrypickConfig = os.path.join(c.PATH, "TEST_config_pods_cherrypick.txt")
+    if not os.path.isfile(cherrypickConfig):
+        with open(cherrypickConfig, 'w', encoding='utf8') as file:
+            file.write("#DestFolder,YTusername,RejectPhrase,MaxDurationSeconds,FeedName\n")
+            appendToTextFile("Created TEST_config_pods_cherrypick.txt", c.LOG_FILEPATH)
+
     if not c.Config.hasErrors():
         c.Config.set("FILES_VALIDATED", True)
     return
