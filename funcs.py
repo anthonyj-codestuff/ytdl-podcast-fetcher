@@ -99,29 +99,29 @@ def validateFileStructure():
             appendToTextFile(f"Created {f}", c.LOG_FILEPATH)
     
     # Check for all configs
-    fetcherConfig = os.path.join(c.PATH, "TEST_config_fetcher.txt")
+    fetcherConfig = os.path.join(c.PATH, "config_fetcher.txt")
     if not os.path.isfile(fetcherConfig):
         with open(fetcherConfig, 'w', encoding='utf8') as file:
             file.write("#Property,Value\nYTDL_PATH,\nFFMPEG_PATH,\nDEST_DIR,")
-            appendToTextFile("Created TEST_config-fetcher.txt", c.LOG_FILEPATH)
+            appendToTextFile("Created config-fetcher.txt", c.LOG_FILEPATH)
 
-    playlistConfig = os.path.join(c.PATH, "TEST_config_pods_playlist.txt")
+    playlistConfig = os.path.join(c.PATH, "config_pods_playlist.txt")
     if not os.path.isfile(playlistConfig):
         with open(playlistConfig, 'w', encoding='utf8') as file:
             file.write("#DestFolder,PlaylistID,RejectPhrase,MaxDurationSeconds,FeedName\n")
-            appendToTextFile("Created TEST_config_pods_playlist.txt", c.LOG_FILEPATH)
+            appendToTextFile("Created config_pods_playlist.txt", c.LOG_FILEPATH)
 
-    usernameConfig = os.path.join(c.PATH, "TEST_config_pods_username.txt")
+    usernameConfig = os.path.join(c.PATH, "config_pods_username.txt")
     if not os.path.isfile(usernameConfig):
         with open(usernameConfig, 'w', encoding='utf8') as file:
             file.write("#DestFolder,YTusername,RejectPhrase,MaxDurationSeconds,FeedName\n")
-            appendToTextFile("Created TEST_config_pods_username.txt", c.LOG_FILEPATH)
+            appendToTextFile("Created config_pods_username.txt", c.LOG_FILEPATH)
 
-    cherrypickConfig = os.path.join(c.PATH, "TEST_config_pods_cherrypick.txt")
+    cherrypickConfig = os.path.join(c.PATH, "config_pods_cherrypick.txt")
     if not os.path.isfile(cherrypickConfig):
         with open(cherrypickConfig, 'w', encoding='utf8') as file:
             file.write("#DestFolder,YTusername,RejectPhrase,MaxDurationSeconds,FeedName\n")
-            appendToTextFile("Created TEST_config_pods_cherrypick.txt", c.LOG_FILEPATH)
+            appendToTextFile("Created config_pods_cherrypick.txt", c.LOG_FILEPATH)
 
     if not c.Config.hasErrors():
         c.Config.set("FILES_VALIDATED", True)
