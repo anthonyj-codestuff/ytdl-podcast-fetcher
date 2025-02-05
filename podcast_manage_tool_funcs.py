@@ -8,6 +8,9 @@ import funcs as funcs
 import funcs_core as corefuncs
 import constants as c
 
+def validateFileStructure():
+  funcs.validateFileStructure()
+
 ##################
 ## Download Video
 

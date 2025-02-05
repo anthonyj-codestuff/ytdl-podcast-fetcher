@@ -1,33 +1,31 @@
-import podcast_manage_tool_funcs as func 
+import podcast_manage_tool_funcs as func
+
+func.validateFileStructure()
 
 cont = True
 while cont:
-  print("1: Add a video to an existing feed")
-  print("2: Add a playlist to an existing feed - IN PROGRESS")
-  print("3: Download URLS in 'batchURLs.txt' to 'Misc Stuff'")
-  print("4: Create a new podcast")
-  print("5: Update a specific podcast feed now")
-  print("6: Spread an array of audio files over a time frame")
-  print("7: Rename, log, and move videos folder")
-  print("8: Exit")
+  messages = [
+    ("Add a video to an existing feed", func.downloadVideo),
+    ("Add a playlist to an existing feed - IN PROGRESS", func.downloadPlaylist),
+    ("Download URLS in 'batchURLs.txt' to 'Misc Stuff'", func.downloadBatchURLs),
+    ("Update a specific podcast feed now", func.updateFeed),
+    ("Create a new podcast", func.addNewPodcast),
+    ("Spread an array of audio files over a time frame", func.datespreadFiles),
+    ("Rename, log, and move contents of 'videos' folder", func.processDownloads),
+    ("Exit",) # This must be the last option
+  ]
+  # Print all messages
+  for i,j in enumerate(messages):
+    print(f"{i+1}: {j[0]}")
   option = input("Pick an option: ")
 
-  if option == "1":
-    func.downloadVideo()
-  elif option == "2":
-    func.downloadPlaylist()
-  elif option == "3":
-    func.downloadBatchURLs()
-  elif option == "4":
-    func.addNewPodcast()
-  elif option == "5":
-    func.updateFeed()
-  elif option == "6":
-    func.datespreadFiles()
-  elif option == "7":
-    func.processDownloads()
-  elif option == "8":
-    break
+  # March selection to function
+  if option in [str(x) for x in range(1, len(messages)+1)]:
+    if option == str(len(messages)):
+      # if selection is a valid number AND the last number, exit
+      break
+    else:
+      messages[int(option)-1][1]()
   else:
     func.printFatalError("invalid selection")
 
