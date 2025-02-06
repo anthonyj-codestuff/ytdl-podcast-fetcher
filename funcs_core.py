@@ -75,7 +75,7 @@ def downloadMiscVideoList():
         "-i",
         "-R", "3",
         "--batch-file", c.BATCH_URLS_FILEPATH,
-        "-o", os.path.join(c.VIDEOS_DIR, "Misc Stuff", "%(title)s_pd_%(upload_date>%m%d%Y)s.%(ext)s"),
+        "-o", os.path.join(c.VIDEOS_DIR, "Misc Stuff", "%(title)s-%(channel)s_pd_%(upload_date>%m%d%Y)s.%(ext)s"),
         "-f", "bestaudio[ext=m4a]",
         "--add-metadata",
         "--embed-thumbnail",
