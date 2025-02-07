@@ -17,6 +17,41 @@ BATCH_URLS_FILEPATH = os.path.join(PATH, "batchURLs.txt")
 LOG_FILEPATH = os.path.join(PATH, "episode-log.txt")
 ARCHIVE_FILEPATH = os.path.join(PATH, "archive.txt")
 
+class fonts:
+  BOLD = '\033[1m'
+  ITALIC = '\033[3m'
+  ULINE = '\033[4m'
+  INVERT = '\033[7m'
+  STRIKE = '\033[9m'
+  RESET = '\033[0m'
+
+  GREY = '\033[90m'
+  RED = '\033[91m'
+  GREEN = '\033[92m'
+  YELLOW = '\033[93m'
+  BLUE = '\033[94m'
+  PURPLE = '\033[95m'
+  CYAN = '\033[96m'
+  WHITE = '\033[97m'
+
+  BACKBLACK = '\033[40m' #\m/
+  BACKGREY = '\033[100m'
+  BACKPURPLE = '\033[45m'
+  BACKWHITE = '\033[47m'
+  BACKBLUE = '\033[44m' #ew
+  BACKYELLOW = '\033[43m'
+  BACKRED = '\033[41m'
+  BACKGREEN = '\033[42m'
+  BACKCYAN = '\033[46m'
+
+validFonts = [ #(F,B) Organized to be as distinguishable as possible
+  (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),
+  (7,0),(4,8),(0,5),(3,3),(4,2),(3,7),(0,6),
+  (0,4),(2,2),(5,8),(1,5),(4,3),(6,2),(4,7),
+  (6,4),(7,2),(3,8),(5,3),(5,2),(6,6),(5,7),
+  (3,2),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1)
+]
+
 class Config:
   _instance = None
   def __new__(cls):
