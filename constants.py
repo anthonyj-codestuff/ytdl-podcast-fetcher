@@ -44,6 +44,28 @@ class fonts:
   BACKGREEN = '\033[42m'
   BACKCYAN = '\033[46m'
 
+colors = [
+  fonts.WHITE,
+  fonts.GREY,
+  fonts.CYAN,
+  fonts.BLUE,
+  fonts.PURPLE,
+  fonts.RED,
+  fonts.YELLOW,
+  fonts.GREEN
+]
+backs = [
+  fonts.BACKBLACK,
+  fonts.BACKWHITE,
+  fonts.BACKGREY,
+  fonts.BACKCYAN,
+  fonts.BACKBLUE,
+  fonts.BACKPURPLE,
+  fonts.BACKRED,
+  fonts.BACKYELLOW,
+  fonts.BACKGREEN
+]
+
 validFonts = [ #(F,B) Organized to be as distinguishable as possible
   (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),
   (7,0),(4,8),(0,5),(3,3),(4,2),(3,7),(0,6),
@@ -51,6 +73,9 @@ validFonts = [ #(F,B) Organized to be as distinguishable as possible
   (6,4),(7,2),(3,8),(5,3),(5,2),(6,6),(5,7),
   (3,2),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1)
 ]
+
+#This shouldn't be used, but it will if a BUNCH of feeds are added
+fallbackFont = (0,1)
 
 class Config:
   _instance = None
