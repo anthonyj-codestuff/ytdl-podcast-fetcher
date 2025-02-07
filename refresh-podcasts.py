@@ -22,6 +22,9 @@ if not DISABLED:
   if not c.Config.get("FILES_VALIDATED"):
     log = f"Folder structure failed validation: [{c.Config.printErrors()}]"
     funcs.appendToTextFile(log, c.LOG_FILEPATH)
+    print("Folder structure failed validation:")
+    for e in c.Config.get("VALIDATION_ERRORS"):
+      print(e)
     funcs.deleteLockfile()
     # exit
   else:
